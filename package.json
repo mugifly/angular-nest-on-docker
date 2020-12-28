@@ -2,7 +2,7 @@
   "name": "angular-nest-on-docker",
   "private": true,
   "scripts": {
-    "start:dev": "lerna run start --stream"
+    "start:dev": "lerna run start:dev --stream"
   },
   "devDependencies": {
     "lerna": "^3.22.1",
