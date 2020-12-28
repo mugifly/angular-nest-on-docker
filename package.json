@@ -1,0 +1,8 @@
+{
+  "name": "angular-nest-on-docker",
+  "private": true,
+  "scripts": {},
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}
