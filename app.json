@@ -1,0 +1,7 @@
+{
+  "name": "angular-nest-on-docker",
+  "repository": "https://github.com/mugifly/angular-nest-on-docker",
+  "env": {},
+  "addons": [],
+  "stack": "container"
+}
