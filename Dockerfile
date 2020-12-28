@@ -40,9 +40,9 @@ COPY . /opt/app/
 ARG NODE_ENV="production"
 ENV NODE_ENV "${NODE_ENV}"
 RUN if [ "${NODE_ENV}" = "production" ]; then \
-	echo "Building app...\n" && \
-	npm run build || exit 1; \
-	echo "build was completed." ; \
+    echo "Building app...\n" && \
+    npm run build || exit 1; \
+    echo "build was completed." ; \
 fi
 
 # Start app
