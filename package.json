@@ -4,7 +4,7 @@
   "scripts": {
     "start": "lerna run start:prod --scope=server --stream",
     "start:dev": "lerna run start:dev --stream",
-    "build": "lerna run build --stream",
+    "build": "lerna run build --scope=server --stream && lerna run build --scope=client --stream",
     "postinstall": "lerna bootstrap"
   },
   "devDependencies": {
