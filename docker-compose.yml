@@ -1,0 +1,13 @@
+# Docker Compose file for development
+
+version: '3'
+services:
+  app:
+    build: .
+    command: npm run start:dev
+    restart: always
+    ports:
+      - 4200:4200
+    volumes:
+      - ./packages/client/src/:/opt/app/packages/client/src/
+      - ./packages/server/src/:/opt/app/packages/server/src/

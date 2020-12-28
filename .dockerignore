@@ -1,0 +1,12 @@
+# Generated files
+npm-debug.log
+node_modules/
+packages/**/node_modules/
+packages/**/dist/
+
+# VCS files
+.git/
+
+# Other files
+docker-compose.yml
+README.md
