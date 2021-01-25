@@ -21,13 +21,19 @@ if [ -f "${CLIENT_DIR}/src/.api-client/index.ts" ]; then
   EXISTS_API_CLIENT=1
 fi
 
-# Get the API JSON from the server
-echo "Waiting for server..."
-until curl --silent "${API_JSON_URL}" > /dev/null; do
+# Check the argument
+if [ "${1}" = "online" ]; then
+  # Get the API JSON from the running server
+  echo "Waiting for server..."
   sleep 2
-done
-sleep 2
-curl --silent "${API_JSON_URL}" > "${TMP_DIR}/api.json"
+  until curl --silent "${API_JSON_URL}" > /dev/null; do
+    sleep 2
+  done
+  curl --silent "${API_JSON_URL}" > /tmp/api.json
+else
+  # Get the API JSON without starting the server
+  "${SERVER_DIR}node_modules/.bin/ts-node" -r tsconfig-paths/register "${SERVER_DIR}src/openapi-doc-generator.ts" "--output=${TMP_DIR}api.json"
+fi
 
 # Check if there is a difference between the new and old API JSON
 API_JSON_HASH_NEW=`sha1sum "${TMP_DIR}api.json" | awk '{ print $1 }'`
