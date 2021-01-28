@@ -31,7 +31,8 @@ CI enabled with GitHub Actions.
 
 ### Deploy on Heroku using Docker
 
-This app supports deploying as production environment to Heroku or other Docker based server.
+This app supports deploying as a production environment to Heroku (with Heroku Button) or other Docker based server.
+Also, you don't have to do the build process locally or CI
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mugifly/angular-nest-on-docker)
 
