@@ -35,9 +35,10 @@ jobs:
 
       - name: Load a cache of docker image
         shell: bash
-        if: steps.docker-cache.outputs.cache-hit == 'true'
         run: |
-          docker load -i /tmp/docker-cache/app.tar || true
+          if [ -f /tmp/docker-cache/app.tar ]; then
+            docker load -i /tmp/docker-cache/app.tar || true
+          fi
 
       - name: Build docker image
         shell: bash
