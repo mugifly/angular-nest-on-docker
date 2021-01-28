@@ -32,7 +32,7 @@ if [ "${1}" = "online" ]; then
   curl --silent "${API_JSON_URL}" > /tmp/api.json
 else
   # Get the API JSON without starting the server
-  "${SERVER_DIR}node_modules/.bin/ts-node" -r tsconfig-paths/register "${SERVER_DIR}src/openapi-doc-generator.ts" "--output=${TMP_DIR}api.json"
+  ts-node -r tsconfig-paths/register "${SERVER_DIR}src/openapi-doc-generator.ts" "--output=${TMP_DIR}api.json"
 fi
 
 # Check if there is a difference between the new and old API JSON
@@ -42,7 +42,7 @@ if [ $EXISTS_API_CLIENT -eq 1 -a "${API_JSON_HASH_OLD}" = "${API_JSON_HASH_NEW}"
 fi
 
 # Covnert API JSON to YAML
-"${SERVER_DIR}/node_modules/.bin/json2yaml" "${TMP_DIR}/api.json" > "${TMP_DIR}/api.yaml"
+json2yaml "${TMP_DIR}/api.json" > "${TMP_DIR}/api.yaml"
 
 # Generate the API client
 /opt/openapi-generator/docker-entrypoint.sh generate -i "${TMP_DIR}/api.yaml" -g typescript-angular -o "${CLIENT_DIR}/src/.api-client/" || rm "${TMP_DIR}api.json"

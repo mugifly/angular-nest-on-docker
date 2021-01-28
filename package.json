@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "lerna run build --scope=server --stream && lerna run build --scope=client --stream",
-    "postinstall": "lerna bootstrap",
+    "postinstall": "lerna bootstrap --hoist --loglevel verbose --nohoist=@types/jasmine",
     "start": "lerna run start:prod --scope=server --stream",
     "start:dev": "lerna run start:dev --stream",
     "test": "npm run test:server && npm run test:client",
@@ -11,8 +11,11 @@
     "test:client": "lerna run test --scope=client --stream",
     "test:server": "lerna run test --scope=server --stream"
   },
+  "dependencies": {
+    "lerna": "^3.20.2",
+    "ts-node": "^9.1.1"
+  },
   "devDependencies": {
-    "lerna": "^3.22.1",
     "prettier": "^1.19.1"
   }
 }
