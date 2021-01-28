@@ -8,9 +8,7 @@ CI enabled with GitHub Actions.
 
 ![CI on Docker](https://github.com/mugifly/angular-nest-on-docker/workflows/CI%20on%20Docker/badge.svg?branch=master)
 
-
-----
-
+---
 
 ## Key Elements
 
@@ -24,8 +22,7 @@ CI enabled with GitHub Actions.
 - Jest -- for Unit testing of Backend
 - GitHub Actions -- for CI
 
-----
-
+---
 
 ## Quick Start
 
@@ -64,15 +61,21 @@ After that, open the web browser and navigate to `http://localhost:4200/`.
 
 Also, when you edit the frontend source-code, HMR applies it to your browser immediately.
 
-
-----
-
+---
 
 ## Testing
 
 ### Unit test for Frontend
 
-Watch mode:
+#### On local (with your Chrome browser):
+
+Requirements: Google Chrome and [dependencies of Puppeteer](https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md)
+
+```
+$ npm run test:client
+```
+
+#### On docker (with headless Chromium browser in the container):
 
 ```
 $ sudo docker-compose up -d
@@ -81,20 +84,26 @@ $ sudo docker-compose exec app npm run test:client
 
 ### Unit test for Backend
 
-Watch mode:
+#### On local:
+
+```
+$ npm run test:server -- -- -- --watchAll
+```
+
+#### On docker:
 
 ```
 $ sudo docker-compose up -d
 $ sudo docker-compose exec app npm run test:server -- -- -- --watchAll
 ```
 
+(NOTE: `--` passes the following arguments to `npm` of root -> `lerna` -> `npm` of server)
+
 ### E2E test
 
-Not supported yet.
+#TODO
 
-
-----
-
+---
 
 ## License and Author
 

@@ -7,8 +7,8 @@
     "start": "lerna run start:prod --scope=server --stream",
     "start:dev": "lerna run start:dev --stream",
     "test": "npm run test:server && npm run test:client",
-    "test-ci": "npm run test:server -- -- -- --coverage && lerna run build:api-client --scope=server && npm run test:client -- -- -- --no-watch --code-coverage",
-    "test:client": "lerna run test --scope=client --stream",
+    "test-ci": "npm run test:server -- -- -- --coverage && npm run test:client -- -- -- --no-watch --code-coverage",
+    "test:client": "lerna run build:api-client --scope=server && lerna run test --scope=client --stream",
     "test:server": "lerna run test --scope=server --stream"
   },
   "dependencies": {

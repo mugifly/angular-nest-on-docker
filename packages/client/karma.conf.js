@@ -1,7 +1,12 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
-process.env.CHROMIUM_BIN = '/opt/chromium/chrome';
+const fs = require('fs');
+let shouldUseHeadlessChromium = fs.existsSync('/opt/chromium/chrome') === true;
+
+if (shouldUseHeadlessChromium) {
+  process.env.CHROMIUM_BIN = '/opt/chromium/chrome';
+}
 
 module.exports = function(config) {
   config.set({
@@ -42,7 +47,7 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chromium'],
+    browsers: shouldUseHeadlessChromium ? ['ChromeHeadlessCI'] : ['Chrome'],
     singleRun: false,
     restartOnFileChange: true,
   });
