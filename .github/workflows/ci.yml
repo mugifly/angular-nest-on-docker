@@ -1,0 +1,85 @@
+name: CI on Docker
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get directory name
+        run: echo ::set-output name=dir_name::$(echo "${PWD##*/}")
+        id: get_dir_name
+
+      - name: Get git ref
+        run: echo ::set-output name=git_ref::${GITHUB_REF#refs/*/}
+        id: get_git_ref
+
+      - id: docker-cache
+        uses: actions/cache@v2
+        with:
+          path: /tmp/docker-cache/
+          key: ${{ steps.get_git_ref.outputs.git_ref }}-${{ hashFiles('Dockerfile', 'package.json', 'packages/*/package.json') }}
+          restore-keys: |
+            ${{ steps.get_git_ref.outputs.git_ref }}-
+            ${{ steps.get_git_ref.outputs.git_ref }}
+            main-
+            master-
+
+      - name: Load a cache of docker image
+        shell: bash
+        if: steps.docker-cache.outputs.cache-hit == 'true'
+        run: |
+          docker load -i /tmp/docker-cache/app.tar || true
+
+      - name: Build docker image
+        shell: bash
+        run: |
+          # Build the docker image of 'app' service using docker command instead Docker Compose, for applying a cache
+          # NOTE: The tag name of the image should be matched with rule of Docker Compose ('%DIR_NAME%_%SERVICE_NAME%')
+          docker build --build-arg NODE_ENV=development --cache-from="${{ steps.get_dir_name.outputs.dir_name }}_app" --tag "${{ steps.get_dir_name.outputs.dir_name }}_app" .
+
+      - name: Save docker image as a cache (background)
+        shell: bash
+        run: |
+          mkdir -p /tmp/docker-cache/
+          docker save -o /tmp/docker-cache/app.tar "${{ steps.get_dir_name.outputs.dir_name }}_app" &
+
+      - name: Test
+        shell: bash
+        env:
+          COMPOSE_INTERACTIVE_NO_CLI: 1
+        run: |
+          # Execute testing with one-off container of 'app' service on Docker Compose
+          docker-compose run app npm run test-ci
+
+      - name: Collect test reports
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          container_id=`docker ps --filter "name=app_run_*" --format "{{ .ID }}" --last 1`
+          docker cp ${container_id}:/opt/app/packages/server/coverage/ /tmp/ || echo "Could not collect server coverage report"
+          if [ -d /tmp/coverage/ ]; then
+            mkdir -p /tmp/coverages/server/
+            mv /tmp/coverage/* /tmp/coverages/server/
+          fi
+          docker cp ${container_id}:/opt/app/packages/client/coverage/ /tmp/ || echo "Could not collect server coverage report"
+          if [ -d /tmp/coverage/ ]; then
+            mkdir -p /tmp/coverages/client/
+            mv /tmp/coverage/* /tmp/coverages/
+          fi
+
+      - name: Upload test reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-reports
+          path: |
+            /tmp/coverages/

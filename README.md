@@ -1,5 +1,17 @@
 # angular-nest-on-docker
 
+Dockerized simple web app template with Angular v11 + NestJS + OpenAPI Generator.
+
+Deployable on Heroku and other Docker base servers.
+HMR enabled.
+CI enabled with GitHub Actions.
+
+![CI on Docker](https://github.com/mugifly/angular-nest-on-docker/workflows/CI%20on%20Docker/badge.svg?branch=master)
+
+
+----
+
+
 ## Key Elements
 
 - Angular v11 -- for Frontend app.
@@ -8,6 +20,12 @@
 - Docker -- for Development & Production environment.
 - Docker Compose -- for Development environment.
 - Lerna -- for make a Monorepo structure that to have Frontend and Backend in a single repository.
+- Karma + Jasmine -- for Unit testing of Frontend (with Puppeteer + Headless Chromium)
+- Jest -- for Unit testing of Backend
+- GitHub Actions -- for CI
+
+----
+
 
 ## Quick Start
 
@@ -45,9 +63,41 @@ After that, open the web browser and navigate to `http://localhost:4200/`.
 
 Also, when you edit the frontend source-code, HMR applies it to your browser immediately.
 
-## License
 
-This project is released under the [CC0 1.0 Universal](https://github.com/mugifly/angular-nest-on-docker/blob/master/LICENSE) license.
+----
+
+
+## Testing
+
+### Unit test for Frontend
+
+Watch mode:
+
+```
+$ sudo docker-compose up -d
+$ sudo docker-compose exec app npm run test:client
+```
+
+### Unit test for Backend
+
+Watch mode:
+
+```
+$ sudo docker-compose up -d
+$ sudo docker-compose exec app npm run test:server -- -- -- --watchAll
+```
+
+### E2E test
+
+Not supported yet.
+
+
+----
+
+
+## License and Author
+
+This project is released under the [CC0 1.0 Universal](https://github.com/mugifly/angular-nest-on-docker/blob/master/LICENSE) license, by Masanori Ohgita ([mugifly](https://github.com/mugifly)).
 
 Therefore, a copyright notice is NOT required.
 Feel free to use or copy it to your project :)

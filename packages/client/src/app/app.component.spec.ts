@@ -1,17 +1,27 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AppComponent } from './app.component';
+import { DefaultService } from 'src/.api-client';
 
 describe('AppComponent', () => {
+
+  let service: DefaultService;
+  let httpController: HttpTestingController;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientTestingModule
       ],
       declarations: [
         AppComponent
       ],
     }).compileComponents();
+
+    service = TestBed.get(DefaultService);
+    httpController = TestBed.get(HttpTestingController);
   });
 
   it('should create the app', () => {
@@ -26,10 +36,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('client');
   });
 
-  it('should render title', () => {
+  it('should render number of articles', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('client app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('There is 0 articles on the backend!');
   });
 });

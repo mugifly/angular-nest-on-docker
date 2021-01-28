@@ -6,7 +6,7 @@
     "start": "ng serve",
     "start:dev": "ng serve --hmr --proxy-config .proxy.conf.json --host 0.0.0.0",
     "build": "ng build --prod",
-    "test": "ng test",
+    "test": "ng test --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -39,6 +39,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
+    "puppeteer": "^5.5.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.0.2"
