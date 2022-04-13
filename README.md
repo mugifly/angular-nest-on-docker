@@ -8,6 +8,13 @@ CI enabled with GitHub Actions.
 
 ![CI on Docker](https://github.com/mugifly/angular-nest-on-docker/workflows/CI%20on%20Docker/badge.svg?branch=master)
 
+## DEPRECATED
+
+This repository is deprecated.
+Instead, I have created a new version that works with or without Docker.
+
+-> https://github.com/mugifly/angular-nest
+
 ---
 
 ## Key Elements
